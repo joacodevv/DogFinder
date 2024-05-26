@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.core.view.isVisible
 import androidx.core.view.marginBottom
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.joaquito.dogfinder.adapter.DogAdapter
@@ -25,7 +26,21 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener{
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.svDogs.setOnQueryTextListener(this)
+        binding.svDogs2.setOnQueryTextListener(this)
         initRecyclerView()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.back.setOnClickListener { goBack() }
+    }
+
+    private fun goBack() {
+        binding.svDogs.isVisible = true
+        binding.svDogs2.isVisible = false
+        binding.tvTitle.isVisible = true
+        binding.back.isVisible = false
+        binding.rvDogs. isVisible = false
     }
 
     private fun initRecyclerView() {
@@ -65,6 +80,11 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener{
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (!query.isNullOrEmpty()){
             searchByName(query.lowercase())
+            binding.svDogs.isVisible = false
+            binding.svDogs2.isVisible = true
+            binding.tvTitle.isVisible = false
+            binding.back.isVisible = true
+            binding.rvDogs.isVisible = true
         }
         return true
     }
@@ -73,7 +93,4 @@ class MainActivity : AppCompatActivity(), OnQueryTextListener{
         return true
     }
 
-    fun transformUI(){
-
-    }
 }
